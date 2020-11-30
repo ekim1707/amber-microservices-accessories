@@ -26,28 +26,15 @@ class AccessoriesControllerSpec extends Specification {
 
     }
 
-    def "Repository get by id method should return something"() {
+    def "Repository get by id method should throw exception if id is not found"() {
         given: "A request has been received to get data by id"
-        Accessories sampleAccessory = new Accessories()
-        sampleAccessory.setId(1)
-        sampleAccessory.setMake("")
-        sampleAccessory.setModel("")
-        sampleAccessory.setWeight(1)
-        sampleAccessory.setLength(1)
-        sampleAccessory.setWidth(1)
-        sampleAccessory.setHeight(1)
-        sampleAccessory.setRating(1)
-        sampleAccessory.setFullPrice(1)
-        sampleAccessory.setImageURL("")
-        sampleAccessory.setCan_delete(false)
-        List<Accessories> sampleList = [sampleAccessory]
-        accessoriesController.accessoriesRepository.findAccessoriesById(_) >> sampleList
+        accessoriesController.accessoriesRepository.findById(_) >> null
 
         when: "We process the req"
-        Accessories result = accessoriesController.getAccessoriesById(1)
+        accessoriesController.getAccessoriesById(1)
 
         then:
-        result == sampleAccessory
+        thrown RuntimeException
     }
 
     def "Repository post method should not throw exception"() {
