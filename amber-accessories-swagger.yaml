@@ -1,0 +1,238 @@
+openapi: 3.0.1
+info:
+  description: This is for Amber Accessories.
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  title: Amber Accessories
+  version: 1.0.0
+servers:
+- url: http://localhost:8080
+- url: http://amber-accessories.wfo-dev-duck-dev-w2.kube.t-mobile.com/
+tags:
+- description: Everything about mobile phone accessories
+  name: accessories
+- description: Submitted product reviews
+  name: reviews
+- description: Access to product orders
+  name: orders
+- description: Operations about users
+  name: users
+paths:
+  /accessories:
+    get:
+      operationId: getAccessories
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Accessory'
+                type: array
+          description: successful operation
+      summary: Gets all phone accessories
+      tags:
+      - accessories
+      x-openapi-router-controller: AccessoriesController
+      x-openapi-router-service: AccessoriesService
+      x-eov-operation-handler: controllers/AccessoriesController
+    post:
+      operationId: addAccessory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Accessory'
+        description: add new phone accessory
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accessory'
+          description: successful operation
+        '400':
+          content: {}
+          description: Invalid Accessory
+      summary: Add an accessory in the collection with form data
+      tags:
+      - accessories
+      x-codegen-request-body-name: body
+      x-openapi-router-controller: AccessoriesController
+      x-openapi-router-service: AccessoriesService
+      x-eov-operation-handler: controllers/AccessoriesController
+  /accessories/{accessoryId}:
+    delete:
+      operationId: deleteAccessory
+      parameters:
+      - description: Accessory id to delete
+        in: path
+        name: accessoryId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        '400':
+          content: {}
+          description: Invalid accessory value
+      summary: Deletes an accessory
+      tags:
+      - accessories
+      x-openapi-router-controller: AccessoriesController
+      x-openapi-router-service: AccessoriesService
+      x-eov-operation-handler: controllers/AccessoriesController
+    get:
+      description: Returns a single accessory
+      operationId: getAccessoryById
+      parameters:
+      - description: ID of accessory to return
+        in: path
+        name: accessoryId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accessory'
+          description: successful operation
+        '400':
+          content: {}
+          description: Invalid ID supplied
+        '404':
+          content: {}
+          description: Accessory not found
+      summary: Find accessory by ID
+      tags:
+      - accessories
+      x-openapi-router-controller: AccessoriesController
+      x-openapi-router-service: AccessoriesService
+      x-eov-operation-handler: controllers/AccessoriesController
+    patch:
+      operationId: updateAccessory
+      parameters:
+      - description: ID of accessory that needs to be updated
+        in: path
+        name: accessoryId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                make:
+                  description: Updated make of the accessory
+                  type: string
+                model:
+                  description: Updated model of the accessory
+                  type: string
+                weight:
+                  description: Updated weight of the accessory
+                  format: float
+                  type: number
+                length:
+                  description: Updated length of the accessory
+                  format: float
+                  type: number
+                width:
+                  description: Updated width of the accessory
+                  format: float
+                  type: number
+                height:
+                  description: Updated height of the accessory
+                  format: float
+                  type: number
+                rating:
+                  description: Updated rating of the accessory
+                  format: int64
+                  type: integer
+                fullPrice:
+                  description: Updated price of the accessory
+                  format: float
+                  type: number
+                imageURL:
+                  description: Updated image URL of the accessory
+                  type: string
+                can_delete:
+                  description: Updated delete flag of the accessory
+                  type: boolean
+              required:
+              - can_delete
+              - fullPrice
+              - height
+              - imageURL
+              - length
+              - make
+              - model
+              - rating
+              - weight
+              - width
+        required: true
+      responses:
+        '405':
+          content: {}
+          description: Invalid input
+      summary: Updates a accessory in the collection with form data
+      tags:
+      - accessories
+      x-openapi-router-controller: AccessoriesController
+      x-openapi-router-service: AccessoriesService
+      x-eov-operation-handler: controllers/AccessoriesController
+components:
+  schemas:
+    Accessory:
+      description: A mobile phone accessory
+      example:
+        can_delete: true
+        imageURL: imageURL
+        length: 10.5
+        width: 5.5
+        rating: 3
+        weight: 6.5
+        model: model
+        id: 0
+        fullPrice: 2.25
+        make: make
+        height: 5.18
+      properties:
+        id:
+          format: int64
+          type: integer
+        make:
+          type: string
+        model:
+          type: string
+        weight:
+          format: float
+          type: number
+        length:
+          format: float
+          type: number
+        width:
+          format: float
+          type: number
+        height:
+          format: float
+          type: number
+        rating:
+          type: number
+        fullPrice:
+          format: float
+          type: number
+        imageURL:
+          type: string
+        can_delete:
+          type: boolean
+      title: An Accessory
+      type: object
+      xml:
+        name: Accessory

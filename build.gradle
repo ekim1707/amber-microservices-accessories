@@ -1,0 +1,44 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.0'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'groovy'
+	id 'jacoco'
+}
+
+group = 'com.galvanize.accessoriesgradle'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '8'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	runtimeOnly 'mysql:mysql-connector-java'
+	compile "org.codehaus.groovy:groovy:2.5.13"
+	testCompile platform("org.spockframework:spock-bom:2.0-M3-groovy-2.5")
+	testCompile "org.spockframework:spock-core"
+	testCompile "org.spockframework:spock-junit4"  // you can remove this if your code does not rely on old JUnit 4 rules
+
+	// optional dependencies for using Spock
+	testCompile "org.hamcrest:hamcrest-core:2.2"   // only necessary if Hamcrest matchers are used
+	testRuntime "net.bytebuddy:byte-buddy:1.10.10" // allows mocking of classes (in addition to interfaces)
+	testRuntime "org.objenesis:objenesis:3.1"
+
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled true
+	}
+}
+
+test {
+	useJUnitPlatform()
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
+}
