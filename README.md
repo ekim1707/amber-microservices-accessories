@@ -6,6 +6,8 @@ Contributors: Eugene Kim
 
 -----
 
+[Walkthrough Video](https://youtu.be/-J-5JFoB50Y)
+
 Technologies used: Java8, Springboot, Spock
 
 Galvanize Cohort 10/19/2020 - 11/20/2020
